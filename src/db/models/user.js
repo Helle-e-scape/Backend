@@ -1,5 +1,5 @@
 const { Schema } = require("mongoose");
-const mongo = require("mongoose");
+const mongoose = require("mongoose");
 
 const userSchema = new Schema({
   pseudo: {
@@ -10,4 +10,10 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  roomId: {
+      type: Schema.Types.ObjectId,
+      ref: "Room",
+    },
 });
+
+module.exports = mongoose.model("User", userSchema);
