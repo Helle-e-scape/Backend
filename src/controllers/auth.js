@@ -20,4 +20,36 @@ AuthController.register = async (req, res) => {
   }
 };
 
+AuthController.findById = async (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "Missing fields" });
+    }
+
+     try {
+        const user = await User.findById(id);
+        return res.status(201).json({ user });
+
+      } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+      }
+}
+
+AuthController.findByIdRoomId = async (req, res ) => {
+    const { roomId } = req.body;
+
+    if (!roomId) {
+        return res.status(400).json({ message: "Missing fields" });
+    }
+
+    try {
+        const users = await User.find({ roomId: roomId });
+        return res.status(201).json({ users });
+
+        } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+}
+
 module.exports = AuthController;
