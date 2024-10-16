@@ -2,10 +2,10 @@ const Trap = require("../db/models/trapUser");
 
 const TrapUserController = {};
 
-TrapUserController.create = async (req, res) =>  {
+TrapUserController.create = async (req, res) => {
     const { location, userId, nameTrap } = req.body;
 
-    if (!location && userId) {
+    if (!location && userId, nameTrap) {
         return res.status(400).json({ message: "Missiing fields" });
     }
 
@@ -25,10 +25,32 @@ TrapUserController.create = async (req, res) =>  {
 };
 
 TrapUserController.findAll = async (req, res) => {
+
     try {
         const trap = await Trap.find();
         return res.status(201).json({ trap });
-        } catch (error) {
+    } catch (error) {
+        return res.status(500).json({ message: "Internal server error" });
+    }
+};
+
+TrapUserController.update = async (req, res) => {
+    const { _id, location } = req.body;
+
+    if (!_id && location) {
+        return res.status(400).json({ message: "Missiing fields" });
+    }
+
+    exist = await Trap.findOne({ _id });
+
+    if (!exist) {
+        return res.status(400).json({ message: "Trap not exist" });
+    }
+
+    try {
+        const trap = await Trap.updateOne({ _id, location });
+        return res.status(201).json({ trap });
+    } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
     }
 };
