@@ -16,4 +16,9 @@ const userSchema = new Schema({
     },
 });
 
+userSchema.pre("remove", async function (next) {
+  await this.model("TrapUser").deleteMany({ user_id: this._id });
+  next();
+});
+
 module.exports = mongoose.model("User", userSchema);

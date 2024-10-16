@@ -34,7 +34,7 @@ AuthController.findById = async (req, res) => {
       } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
       }
-}
+};
 
 AuthController.findByIdRoomId = async (req, res ) => {
     const { roomId } = req.body;
@@ -50,6 +50,6 @@ AuthController.findByIdRoomId = async (req, res ) => {
         } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
     }
-}
+};
 
 module.exports = AuthController;
