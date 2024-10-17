@@ -3,9 +3,9 @@ const Trap = require("../db/models/trapUser");
 const TrapUserController = {};
 
 TrapUserController.create = async (req, res) => {
-    const { location, userId, nameTrap } = req.body;
+    const { nameTrap, location, userId, roomId } = req.body;
 
-    if (!location && userId, nameTrap) {
+    if (!location && userId && nameTrap && roomId) {
         return res.status(400).json({ message: "Missiing fields" });
     }
 
@@ -16,7 +16,12 @@ TrapUserController.create = async (req, res) => {
     }
 
     try {
-        const trap = new Trap({ location, userId, nameTrap });
+        const trap = new Trap({ 
+            nameTrap, 
+            location, 
+            userId, 
+            roomId 
+        });
         await trap.save();
         return res.status(201).json({ message: "Trap created", trap });
     } catch (error) {
@@ -24,11 +29,15 @@ TrapUserController.create = async (req, res) => {
     }
 };
 
-// TODO fix findAll by findAllByRoomId
-TrapUserController.findAll = async (req, res) => {
+TrapUserController.findAllByIdRoom = async (req, res) => {
+    const { _id } = req.body;
+
+    if (!_id) { 
+        return res.status(400).json({ message: "Missing fields" });
+    }
 
     try {
-        const trap = await Trap.find();
+        const trap = await Trap.find({ roomId: _id });
         return res.status(201).json({ trap });
     } catch (error) {
         return res.status(500).json({ message: "Internal server error" });

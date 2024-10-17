@@ -1,5 +1,5 @@
 const Room = require("../db/models/room");
-const User = require("../db/models/user");
+
 const RoomController = {};
 
 RoomController.create = async (req, res) => {

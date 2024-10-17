@@ -36,7 +36,7 @@ AuthController.findById = async (req, res) => {
       }
 };
 
-AuthController.findByIdRoomId = async (req, res ) => {
+AuthController.findByIdRoom = async (req, res ) => {
     const { roomId } = req.body;
 
     if (!roomId) {
