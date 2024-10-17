@@ -45,7 +45,7 @@ RoomController.userJoin = async (req, res) => {
 
   try {
     await User.updateOne({ _id }, { roomId: roomId });
-    return res.status(201).json({ message: existUser.pseudo + " join the room " +existRoom.name });
+    return res.status(201).json({ message: existUser.pseudo + " join the room " + existRoom.name });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
