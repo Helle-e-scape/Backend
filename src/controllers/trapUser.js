@@ -24,6 +24,7 @@ TrapUserController.create = async (req, res) => {
     }
 };
 
+// TODO fix findAll by findAllByRoomId
 TrapUserController.findAll = async (req, res) => {
 
     try {
@@ -48,8 +49,8 @@ TrapUserController.update = async (req, res) => {
     }
 
     try {
-        const trap = await Trap.updateOne({ _id, location });
-        return res.status(201).json({ trap });
+        await Trap.updateOne({ _id, location });
+        return res.status(201).json({ message: "Location trap update at the position " + location });
     } catch (error) {
         return res.status(500).json({ message: "Internal server error" });
     }
