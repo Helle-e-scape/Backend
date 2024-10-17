@@ -15,6 +15,10 @@ const trapUserSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
     },
+    roomId: {
+        type: Schema.Types.ObjectId,
+        ref: "Room",
+    },
 });
 
 module.exports = mongoose.model("TrapUser", trapUserSchema);
