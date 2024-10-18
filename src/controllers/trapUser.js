@@ -9,12 +9,6 @@ TrapUserController.create = async (req, res) => {
         return res.status(400).json({ message: "Missiing fields" });
     }
 
-    exist = await Trap.findOne({ location });
-
-    if (exist) {
-        return res.status(400).json({ message: "Trap already exist" });
-    }
-
     try {
         const trap = new Trap({ 
             nameTrap, 

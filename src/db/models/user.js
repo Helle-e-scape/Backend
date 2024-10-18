@@ -11,14 +11,18 @@ const userSchema = new Schema({
     default: Date.now,
   },
   roomId: {
-      type: Schema.Types.ObjectId,
-      ref: "Room",
-    },
+    type: Schema.Types.ObjectId,
+    ref: "Room",
+  },
 });
 
-userSchema.pre("remove", async function (next) {
-  await this.model("TrapUser").deleteMany({ user_id: this._id });
-  next();
+userSchema.pre("deleteOne", { document: false, query: true }, async function (next) {
+  try {
+    await mongoose.model("TrapUser").deleteMany({ userId: this.getQuery()._id });
+    next();
+  } catch (error) {
+    next(error)
+  }
 });
 
 module.exports = mongoose.model("User", userSchema);

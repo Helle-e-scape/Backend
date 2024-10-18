@@ -1,4 +1,5 @@
 const Room = require("../db/models/room");
+const User = require("../db/models/user");
 
 const RoomController = {};
 
@@ -50,5 +51,20 @@ RoomController.userJoin = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
+RoomController.delete = async (req, res) => {
+  const { _id } = req.body;
+
+  if (!_id) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
+
+  try {
+    await Room.deleteOne({ _id });
+    return res.status(201).json({ message: "Room delete" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
 
 module.exports = RoomController;
