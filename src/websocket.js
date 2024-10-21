@@ -1,11 +1,11 @@
 const websocket = require("ws");
 
 let wss;
-const initWebSocket = () => {
+const initWebSocket = (server) => {
   if (wss) {
     wss.close(); // Fermer une instance existante si elle est encore active
   }
-  wss = new websocket.Server({ port: 8080 });
+  wss = new websocket.Server({ server });
 
   wss.on("connection", (ws) => {
     console.log("Un utilisateur est connecté");
