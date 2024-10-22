@@ -18,6 +18,10 @@ const initWebSocket = (server) => {
       const message = JSON.parse(data);
       console.log(message);
       switch (message.type) {
+        case "placeTrap": {
+          // Send the message only to unity
+          sendMessage({ type: "placeTrap", data: message.data });
+        }
       }
     });
   });
