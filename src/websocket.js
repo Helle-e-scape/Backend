@@ -3,7 +3,6 @@ const TrapUserController = require("./controllers/trapUser");
 const Room = require("./db/models/room");
 const RoomController = require("../src/controllers/room");
 
-
 let wss;
 const initWebSocket = (server) => {
   if (wss) {
@@ -24,7 +23,7 @@ const initWebSocket = (server) => {
       switch (message.type) {
         case "placeTrap": {
           TrapUserController.create(message);
-          sendMessage({ type: "placeTrap", data: message.data });
+          sendMessage({ type: "placeTrap", location: message.data });
           break;
         }
         case "create_room": {
