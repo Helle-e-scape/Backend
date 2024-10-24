@@ -1,9 +1,11 @@
 const websocket = require("ws");
+const Room = require("./db/models/room");
+const RoomController = require("../src/controllers/room");
 
 let wss;
 const initWebSocket = (server) => {
   if (wss) {
-    wss.close(); // Fermer une instance existante si elle est encore active
+    wss.close();
   }
   wss = new websocket.Server({ server });
 
@@ -19,19 +21,56 @@ const initWebSocket = (server) => {
       console.log(message);
       switch (message.type) {
         case "placeTrap": {
-          // Send the message only to unity
           sendMessage({ type: "placeTrap", data: message.data });
+          break;
+        }
+        case "create_room": {
+          sendMessage({ type: "create_room" });
+          // createRoom(); // Pass sendMessage as argument
+          break;
+        }
+        default: {
+          sendMessage({ type: "error", message: "Unknown message type" });
+          break;
         }
       }
     });
   });
 };
 
+// const createRoom = async () => {
+//   try {
+//     const code = Math.floor(100000 + Math.random() * 900000);
+//     const room = new Room({ code });
+//     await room.save();
+
+//     sendMessage({ type: "roomCreated", message: "Room created", room });
+//     console.log("Room created");
+//   } catch (error) {
+//     console.log(error);
+//     sendMessage("error", { message: "Internal sserver error" });
+//     return error;
+//   }
+// };
+
 const sendMessage = (data) => {
   if (wss) {
     wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
+      if (client.readyState === websocket.OPEN) {
         console.log("Sending message to client");
+        if (data.type == "create_room") {
+          RoomController.createRoom()
+            .then((room) => {
+              client.send(
+                JSON.stringify({
+                  type: "roomCreated",
+                  message: "Room created",
+                  room,
+                })
+              );
+            })
+            .catch((error) => console.log(error));
+        }
         client.send(JSON.stringify(data));
       }
     });
