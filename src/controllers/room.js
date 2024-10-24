@@ -50,7 +50,7 @@ RoomController.userJoin = async (req, res) => {
     sendMessage({ type: "join_room", user: existUser, room: existRoom });
     return res
       .status(201)
-      .json({ message: existUser.pseudo + " join the room " + existRoom.name });
+      .json({ message: existUser.pseudo + " join the room " + existRoom.code, existRoom });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
