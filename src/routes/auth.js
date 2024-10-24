@@ -4,5 +4,6 @@ const AuthController = require("../controllers/auth");
 route.post("/register", AuthController.register);
 route.post("/findById", AuthController.findById);
 route.post("/findByIdRoom", AuthController.findByIdRoom);
+route.delete("/delete", AuthController.delete);
 
 module.exports = route;

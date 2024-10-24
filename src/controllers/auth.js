@@ -53,4 +53,19 @@ AuthController.findByIdRoom = async (req, res) => {
   }
 };
 
+AuthController.delete = async (req, res) => {
+  const { _id } = req.body;
+
+  if (!_id) {
+    return res.status(400).json({ message: "Missing fields" });
+  }
+
+  try {
+    await User.deleteOne({ _id });
+    return res.status(201).json({ message: "User delete" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = AuthController;
