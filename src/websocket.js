@@ -1,4 +1,5 @@
 const websocket = require("ws");
+const TrapUserController = require("./controllers/trapUser");
 
 let wss;
 const initWebSocket = (server) => {
@@ -19,7 +20,7 @@ const initWebSocket = (server) => {
       console.log(message);
       switch (message.type) {
         case "placeTrap": {
-          // Send the message only to unity
+          TrapUserController.create(message);
           sendMessage({ type: "placeTrap", data: message.data });
         }
       }
