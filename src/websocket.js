@@ -27,6 +27,8 @@ const initWebSocket = (server) => {
             type: "placeTrap",
             location: message.data,
             trapType: message.trapType,
+            userId: message.userId,
+            roomId: message.roomId,
           });
           break;
         }
