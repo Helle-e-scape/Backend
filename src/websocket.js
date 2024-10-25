@@ -23,7 +23,11 @@ const initWebSocket = (server) => {
       switch (message.type) {
         case "placeTrap": {
           TrapUserController.create(message);
-          sendMessage({ type: "placeTrap", location: message.data });
+          sendMessage({
+            type: "placeTrap",
+            location: message.data,
+            trapType: message.trapType,
+          });
           break;
         }
         case "create_room": {
