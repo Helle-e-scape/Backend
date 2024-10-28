@@ -1,5 +1,6 @@
+// AuthController.js
 const User = require("../db/models/user");
-const { sendMessage } = require("../websocket");
+const { sendMessage } = require("../messaging"); // Import du nouveau module
 
 const AuthController = {};
 
@@ -11,11 +12,12 @@ AuthController.register = async (req, res) => {
   }
 
   try {
-    const user = new User({
-      pseudo,
-    });
+    const user = new User({ pseudo });
     await user.save();
+
+    // Envoi du message après la création de l'utilisateur
     sendMessage({ type: "create_user", user });
+
     return res.status(201).json({ message: "User created", user });
   } catch (error) {
     console.log(error);
@@ -62,7 +64,7 @@ AuthController.delete = async (req, res) => {
 
   try {
     await User.deleteOne({ _id });
-    return res.status(201).json({ message: "User delete" });
+    return res.status(201).json({ message: "User deleted" });
   } catch (error) {
     return res.status(500).json({ message: "Internal server error" });
   }
