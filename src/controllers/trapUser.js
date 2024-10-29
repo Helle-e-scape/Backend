@@ -4,7 +4,7 @@ const TrapUserController = {};
 
 TrapUserController.create = async (trap) => {
   console.log("trap", trap);
-  const { nameTrap, data, userId, roomId } = trap;
+  const { nameTrap, data, userId, roomId, level } = trap;
 
   if (!data && userId && nameTrap && roomId) {
     // return res.status(400).json({ message: "Missiing fields" });
@@ -24,6 +24,7 @@ TrapUserController.create = async (trap) => {
       location: data,
       userId,
       roomId,
+      level,
     });
     await trap.save().then(() => {
       // return res.status(201).json({ message: "Trap created", trap });
