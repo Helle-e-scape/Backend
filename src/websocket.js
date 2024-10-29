@@ -27,6 +27,7 @@ const initWebSocket = (server) => {
             trapType: message.trapType,
             userId: message.userId,
             roomId: message.roomId,
+            level: message.level,
           });
           break;
         }
@@ -40,6 +41,20 @@ const initWebSocket = (server) => {
               });
             })
             .catch((error) => console.log(error));
+          break;
+        }
+        case "gameState": {
+          sendMessage({
+            type: "gameState",
+            state: message.state,
+          });
+          break;
+        }
+        case "level": {
+          sendMessage({
+            type: "level",
+            level: message.level,
+          });
           break;
         }
         default: {

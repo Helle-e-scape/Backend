@@ -18,6 +18,9 @@ const trapUserSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Room",
   },
+  level: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model("TrapUser", trapUserSchema);
