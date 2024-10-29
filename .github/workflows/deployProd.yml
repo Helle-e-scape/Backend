@@ -1,0 +1,31 @@
+name: Build and deploy Docker Image
+
+on: 
+  push:
+    branches: 
+      -main 
+
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+
+    steps: 
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }} # SSH_PRIVATE_KEY clé ssh stocker dans les secrets de github 
+
+    - name: Build Docker Image
+      run: docker build . -t helle-e-scape-backend:latest
+
+    # SERVER_USER_IP user et ip de serv stocker dans les secret de github
+    - name: Deploy to Server
+      run: |
+        ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USER_IP }}<< 'EOF'
+          docker stop helle-e-scape-backend || true
+          docker rm helle-e-scape-backend || true
+          docker run -d --name helle-e-scape-backend -p 3000:3000 -p 8080:8080 helle-e-scape-backend:latest
+        EOF
